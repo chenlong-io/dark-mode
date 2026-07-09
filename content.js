@@ -35,10 +35,12 @@ function applyDarkMode() {
       styleTag.id = 'dark-mode-extension-style';
       styleTag.textContent = `
         html {
-          background-color: #121212 !important;
-          filter: invert(0.85) hue-rotate(180deg) !important;
+          /* 100%反转，确保子元素的再次反转能完美抵消 */
+          filter: invert(1) hue-rotate(180deg) !important;
+          /* 为了避免过分刺眼的纯黑，叠加一个降低对比度的属性是更好的选择，但为了原图无损，这里保持默认纯粹的 invert */
         }
-        img, video, canvas, iframe, picture, svg {
+        /* 将所有媒体元素二次反转，恢复原样 */
+        img, video, canvas, iframe, picture, svg, image, *[style*="background-image"] {
           filter: invert(1) hue-rotate(180deg) !important;
         }
       `;
